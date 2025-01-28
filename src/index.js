@@ -4,7 +4,7 @@ let table = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
 let turn = 1
@@ -12,8 +12,8 @@ let turn = 1
 let winner = 0
 
 const players = [
-    'Samir',
-    'Samir2'
+    'Player1',
+    'Player2'
 ]
 
 const COLORS = {
@@ -125,147 +125,173 @@ function validMoveRules(top_solid, left_solid, right_solid, bottom_solid){
     return bottom_solid||top_solid  
 }
 
-function isWinningMove(lastX, lastY){
-    let current_square = accessTable(lastX, lastY)
-
-    let top_win_possible = true
-    let left_win_possible = true
-    let right_win_possible = true
-    let bottom_win_possible = true
-    let top_left_win_possible = true
-    let top_right_win_possible = true
-    let bottom_left_win_possible = true
-    let bottom_right_win_possible = true
-    for(let i = 1; i < winning_array; i++){
-        const top = accessTable(lastX, lastY-i)
-        const left = accessTable(lastX-i, lastY)
-        const right = accessTable(lastX+i, lastY)
-        const bottom = accessTable(lastX, lastY+i)
-        const top_left = accessTable(lastX-i, lastY-i)
-        const top_right = accessTable(lastX+i, lastY-i)
-        const bottom_left = accessTable(lastX-i, lastY+i)
-        const bottom_right = accessTable(lastX+i, lastY+i)
-
-        let top_win = top!=='colliding_with_wall'
-        let left_win = left!=='colliding_with_wall'
-        let right_win = right!=='colliding_with_wall'
-        let bottom_win = bottom!=='colliding_with_wall'
-        let top_left_win = top_left!=='colliding_with_wall'
-        let top_right_win = top_right!=='colliding_with_wall'
-        let bottom_left_win = bottom_left!=='colliding_with_wall'
-        let bottom_right_win = bottom_right!=='colliding_with_wall'
-
-        if(left !== 'colliding_with_wall' && left_win){
-            if(left !== current_square){
-                left_win = false
+function isWinningMove(){
+    for(let lastX = 0, lastY = 0; lastY <= table.length-1;){
+        let current_square = accessTable(lastX, lastY)
+        // console.log(current_square);
+        
+        if(current_square===0){
+            if(lastX >= table[0].length-1){
+                lastY++
+                lastX = 0
+            }else{
+                lastX++
             }
-        }
-        if(right !== 'colliding_with_wall' && right_win){
-            if(right !== current_square){
-                right_win = false
-            }
-        }
-        if(top !== 'colliding_with_wall' && top_win){
-            if(top !== current_square){
-                top_win = false
-            }
-        }
-        if(bottom !== 'colliding_with_wall' && bottom_win){
-            if(bottom !== current_square){
-                bottom_win = false
-            }
-        }
-        if(top_left !== 'colliding_with_wall' && top_left_win){
-            if(top_left !== current_square){
-                top_left_win = false
-            }
-        }
-        if(top_right !== 'colliding_with_wall' && top_right_win){
-            if(top_right !== current_square){
-                top_right_win = false
-            }
-        }
-        if(bottom_left !== 'colliding_with_wall' && bottom_left_win){
-            if(bottom_left !== current_square){
-                bottom_left_win = false
-            }
-        }
-        if(bottom_right !== 'colliding_with_wall' && bottom_right_win){
-            if(bottom_right !== current_square){
-                bottom_right_win = false
-            }
+            continue
         }
 
-        if(top_win_possible){
-            top_win_possible = top_win
+        let top_win_possible = true
+        let left_win_possible = true
+        let right_win_possible = true
+        let bottom_win_possible = true
+        let top_left_win_possible = true
+        let top_right_win_possible = true
+        let bottom_left_win_possible = true
+        let bottom_right_win_possible = true
+
+        let win = true
+
+        for(let i = 1; i < winning_array; i++){
+            const top = accessTable(lastX, lastY-i)
+            const left = accessTable(lastX-i, lastY)
+            const right = accessTable(lastX+i, lastY)
+            const bottom = accessTable(lastX, lastY+i)
+            const top_left = accessTable(lastX-i, lastY-i)
+            const top_right = accessTable(lastX+i, lastY-i)
+            const bottom_left = accessTable(lastX-i, lastY+i)
+            const bottom_right = accessTable(lastX+i, lastY+i)
+    
+            let top_win = top!=='colliding_with_wall'
+            let left_win = left!=='colliding_with_wall'
+            let right_win = right!=='colliding_with_wall'
+            let bottom_win = bottom!=='colliding_with_wall'
+            let top_left_win = top_left!=='colliding_with_wall'
+            let top_right_win = top_right!=='colliding_with_wall'
+            let bottom_left_win = bottom_left!=='colliding_with_wall'
+            let bottom_right_win = bottom_right!=='colliding_with_wall'
+    
+            if(left !== 'colliding_with_wall' && left_win){
+                if(left !== current_square){
+                    left_win = false
+                }
+            }
+            if(right !== 'colliding_with_wall' && right_win){
+                if(right !== current_square){
+                    right_win = false
+                }
+            }
+            if(top !== 'colliding_with_wall' && top_win){
+                if(top !== current_square){
+                    top_win = false
+                }
+            }
+            if(bottom !== 'colliding_with_wall' && bottom_win){
+                if(bottom !== current_square){
+                    bottom_win = false
+                }
+            }
+            if(top_left !== 'colliding_with_wall' && top_left_win){
+                if(top_left !== current_square){
+                    top_left_win = false
+                }
+            }
+            if(top_right !== 'colliding_with_wall' && top_right_win){
+                if(top_right !== current_square){
+                    top_right_win = false
+                }
+            }
+            if(bottom_left !== 'colliding_with_wall' && bottom_left_win){
+                if(bottom_left !== current_square){
+                    bottom_left_win = false
+                }
+            }
+            if(bottom_right !== 'colliding_with_wall' && bottom_right_win){
+                if(bottom_right !== current_square){
+                    bottom_right_win = false
+                }
+            }
+    
+            if(top_win_possible){
+                top_win_possible = top_win
+            }
+            if(left_win_possible){
+                left_win_possible = left_win
+            }
+            if(right_win_possible){
+                right_win_possible = right_win
+            }
+            if(bottom_win_possible){
+                bottom_win_possible = bottom_win
+            }
+            if(top_left_win_possible){
+                top_left_win_possible = top_left_win
+            }
+            if(top_right_win_possible){
+                top_right_win_possible = top_right_win
+            }
+            if(bottom_left_win_possible){
+                bottom_left_win_possible = bottom_left_win
+            }
+            if(bottom_right_win_possible){
+                bottom_right_win_possible = bottom_right_win
+            }
+            if(!(top_win_possible||left_win_possible||right_win_possible||bottom_win_possible||top_left_win_possible||top_right_win_possible||bottom_left_win_possible||bottom_right_win_possible)){
+                win = false
+                break
+            }
         }
-        if(left_win_possible){
-            left_win_possible = left_win
+        if(win){
+            if(top_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX, lastY-i, 3)
+                }
+            }
+            if(left_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX-i, lastY, 3)
+                }
+            }
+            if(right_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX+i, lastY, 3)
+                }
+            }
+            if(bottom_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX, lastY+i, 3)
+                }
+            }
+            if(top_left_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX-i, lastY-i, 3)
+                }
+            }
+            if(top_right_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX+i, lastY-i, 3)
+                }
+            }
+            if(bottom_left_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX-i, lastY+i, 3)
+                }
+            }
+            if(bottom_right_win_possible){
+                for(let i = 0; i < winning_array; i++){
+                    setTable(lastX+i, lastY+i, 3)
+                }
+            }
+            redraw_table()
+            return current_square
         }
-        if(right_win_possible){
-            right_win_possible = right_win
-        }
-        if(bottom_win_possible){
-            bottom_win_possible = bottom_win
-        }
-        if(top_left_win_possible){
-            top_left_win_possible = top_left_win
-        }
-        if(top_right_win_possible){
-            top_right_win_possible = top_right_win
-        }
-        if(bottom_left_win_possible){
-            bottom_left_win_possible = bottom_left_win
-        }
-        if(bottom_right_win_possible){
-            bottom_right_win_possible = bottom_right_win
-        }
-        if(!(top_win_possible||left_win_possible||right_win_possible||bottom_win_possible||top_left_win_possible||top_right_win_possible||bottom_left_win_possible||bottom_right_win_possible)){
-            return 0
+        if(lastX >= table[0].length){
+            lastY++
+            lastX = 0
+        }else{
+            lastX++
         }
     }
-    if(top_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX, lastY-i, 3)
-        }
-    }
-    if(left_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX-i, lastY, 3)
-        }
-    }
-    if(right_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX+i, lastY, 3)
-        }
-    }
-    if(bottom_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX, lastY+i, 3)
-        }
-    }
-    if(top_left_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX-i, lastY-i, 3)
-        }
-    }
-    if(top_right_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX+i, lastY-i, 3)
-        }
-    }
-    if(bottom_left_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX-i, lastY+i, 3)
-        }
-    }
-    if(bottom_right_win_possible){
-        for(let i = 0; i < winning_array; i++){
-            setTable(lastX+i, lastY+i, 3)
-        }
-    }
-    redraw_table()
-    return current_square
+    return 0
 }
 
 function restart(){
