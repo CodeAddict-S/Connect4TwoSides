@@ -122,15 +122,19 @@ function setTable(x, y, value){
 
 //uses all the parameters for different types of games, like double gravity
 function validMoveRules(top_solid, left_solid, right_solid, bottom_solid){
-    return bottom_solid||top_solid  
+    return bottom_solid||top_solid
 }
 
 function isWinningMove(){
+    let x_incremented = false
     for(let lastX = 0, lastY = 0; lastY <= table.length-1;){
+        x_incremented = false
+
         let current_square = accessTable(lastX, lastY)
-        // console.log(current_square);
+        console.log(`${lastX}, ${lastY}`);
         
-        if(current_square===0){
+        if(current_square===0&&!x_incremented){
+            x_incremented = true
             if(lastX >= table[0].length-1){
                 lastY++
                 lastX = 0
@@ -284,10 +288,10 @@ function isWinningMove(){
             redraw_table()
             return current_square
         }
-        if(lastX >= table[0].length){
+        if(lastX >= table[0].length-1&&!x_incremented){
             lastY++
             lastX = 0
-        }else{
+        }else if(!x_incremented){
             lastX++
         }
     }
