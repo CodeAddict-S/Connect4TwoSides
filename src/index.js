@@ -122,7 +122,7 @@ function setTable(x, y, value){
 
 //uses all the parameters for different types of games, like double gravity
 function validMoveRules(top_solid, left_solid, right_solid, bottom_solid){
-    return bottom_solid
+    return bottom_solid||top_solid
 }
 
 function isWinningMove(){
