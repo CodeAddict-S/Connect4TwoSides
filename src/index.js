@@ -29,7 +29,7 @@ function createBoard(){
     let board = document.getElementById('board')
     let board_html = ''
     for(let x = 0, y = 0; y <= table.length-1;){
-        board_html += `<div onclick="move(${x}, ${y}); this.style.backgroundColor=this.bg; this.style.opacity='100%'" onmouseleave="this.style.backgroundColor=this.bg; this.style.opacity='100%'" onmouseover="is_move_valid(${x}, ${y})?this.style.backgroundColor='lightgreen':this.style.backgroundColor='#ff1414'; this.style.opacity='50%'" pos="{'x':${x}, 'y':${y}}" class="w-full game-square aspect-square bg-[#6e6e6e] rounded-[5px] shrink-0"></div>`
+        board_html += `<button onclick="move(${x}, ${y}); this.style.backgroundColor=this.bg; this.style.opacity='100%'" onmouseleave="this.style.backgroundColor=this.bg; this.style.opacity='100%'" onmouseover="is_move_valid(${x}, ${y})?this.style.backgroundColor='lightgreen':this.style.backgroundColor='#ff1414'; this.style.opacity='50%'" pos="{'x':${x}, 'y':${y}}" class="w-full game-square aspect-square bg-[#6e6e6e] rounded-[5px] shrink-0"></button>`
         if(x >= table[0].length-1){
             x = 0
             y++
@@ -122,7 +122,7 @@ function setTable(x, y, value){
 
 //uses all the parameters for different types of games, like double gravity
 function validMoveRules(top_solid, left_solid, right_solid, bottom_solid){
-    return bottom_solid||top_solid
+    return bottom_solid
 }
 
 function isWinningMove(){
